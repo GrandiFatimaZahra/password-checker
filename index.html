@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Secure Password Strength Checker </title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    
+
+    <div class="content">
+        <header>
+            <div class="logo"> --------- > </div>
+            <nav>
+                <ul>
+                    <li><a href="#accueil">Accueil</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#checker" >Verification </a> </li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero" id="accueil">
+               <h1>        Vérificateur de la Robustesse des Mots de Passe Sécurisé </h1>
+            <p>À l’ère du numérique, la protection des données personnelles est devenue un enjeu majeur. Chaque jour, des millions de comptes en ligne sont exposés aux risques de piratage en raison de mots de passe faibles ou faciles à deviner.
+
+Le Vérificateur de la Robustesse des Mots de Passe est un outil conçu pour analyser la sécurité d’un mot de passe et évaluer son niveau de protection. Grâce à un système d’analyse basé sur plusieurs critères — tels que la longueur, la présence de majuscules, de chiffres et de caractères spéciaux — cet outil permet de déterminer si un mot de passe est faible, moyen ou fort.
+
+L’objectif de ce site est de sensibiliser les utilisateurs aux bonnes pratiques en cybersécurité et de les aider à créer des mots de passe plus sûrs afin de mieux protéger leurs informations personnelles</p>
+            <a href="#services" class="btn">Plus ...</a>
+        </section>
+
+        <section class="cards-section" id="services">
+            <h2>Mes Services: </h2>
+            <div class="cards-container">
+                <div class="card">
+                    <h3> Analyse de la Robustesse du Mot de Passe </h3>
+                    <p> Ce service analyse la sécurité du mot de passe saisi par l’utilisateur.
+Le système vérifie plusieurs critères comme la longueur du mot de passe, l’utilisation de lettres majuscules et minuscules, de chiffres et de caractères spéciaux afin de déterminer son niveau de robustesse</p>
+                </div>
+                <div class="card">
+                    <h3> Conseils pour Améliorer le Mot de Passe</h3>
+                    <p>Lorsque le mot de passe est jugé faible, le système propose des conseils pour l’améliorer.
+Par exemple : 
+ajouter des chiffres, utiliser des caractères spéciaux, ou augmenter la longueur du mot de passe afin de le rendre plus sécurisé.</p>
+                </div>
+                <div class="card">
+                    <h3>Sensibilisation à la Cybersécurité</h3>
+                    <p>Cette plateforme vise également à sensibiliser les utilisateurs aux bonnes pratiques de sécurité numérique.
+Elle explique pourquoi un mot de passe fort est essentiel pour protéger les comptes en ligne contre les tentatives de piratage.</p>
+                </div>
+            </div>
+        </section>
+     <section class="checker-section" id="checker">
+       
+        
+        <!-- Partie droite : Formulaire de test -->
+        <div class="checker-form">
+            <h2>Tester votre mot de passe</h2>
+            <p class="form-subtitle">Vérifiez la robustesse de votre mot de passe en quelques secondes</p>
+            
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Entrez votre mot de passe">
+            </div>
+            
+            <button onclick="checkPassword()" class="checker-btn">Vérifier la robustesse</button>
+            
+            <div id="result" class="result-box">
+                <!-- Le résultat s'affichera ici -->
+            </div>
+        </div>
+    </div>
+</section>
+     
+        <footer class="footer" id="contact">
+    <div class="footer-container">
+
+        <div class="footer-info">
+            <h3>Secure Password Strength Checker</h3>
+            <p>Projet de cybersécurité pour analyser la robustesse des mots de passe.</p>
+        </div>
+
+        <div class="footer-contact">
+            <h4>Contact</h4>
+            <p><strong>cree par:</strong> Fatima Zahra Grandi</p>
+            <p><strong>Téléphone :</strong> 0633282709</p>
+            <p><strong>Pays :</strong> Maroc 🇲🇦</p>
+        </div>
+
+        <div class="footer-year">
+            <p>© 2026 Fatima Zahra Grandi - Tous droits réservés</p>
+        </div>
+
+    </div>
+   </footer>
+
+    <script>
+
+  // ============================================
+// VÉRIFICATEUR DE ROBUSTESSE DE MOT DE PASSE
+// ============================================
+
+function checkPassword() {
+    // Récupération des éléments
+    const password = document.getElementById('password').value;
+    const resultDiv = document.getElementById('result');
+    
+    // Vérification si le mot de passe est vide
+    if (password.length === 0) {
+        showEmptyPassword(resultDiv);
+        return;
+    }
+    
+    // ANALYSE DÉTAILLÉE DU MOT DE PASSE
+    const analysis = analyzePassword(password);
+    
+    // AFFICHAGE DU RÉSULTAT AVEC STYLE
+    displayResult(analysis, resultDiv);
+}
+
+
+function analyzePassword(password) {
+    // 1. Critères de base
+    const length = password.length;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    
+    // 2. Compter les types de caractères
+    let characterTypes = 0;
+    if (hasUpperCase) characterTypes++;
+    if (hasLowerCase) characterTypes++;
+    if (hasNumbers) characterTypes++;
+    if (hasSpecial) characterTypes++;
+    
+    // 3. Vérifier les séquences (ex: 123, abc)
+    const hasSequential = checkSequential(password);
+    
+    // 4. Vérifier les répétitions (ex: aaaa, 1111)
+    const hasRepeated = checkRepeated(password);
+    
+    // 5. Calculer le score (sur 10)
+    let score = 0;
+    
+    // Score pour la longueur (max 3 points)
+    if (length >= 16) score += 3;
+    else if (length >= 12) score += 2;
+    else if (length >= 8) score += 1;
+    
+    // Score pour les types de caractères (max 4 points)
+    score += characterTypes;
+    
+    // Score pour la diversité (max 3 points)
+    if (characterTypes >= 4 && length >= 12) score += 2;
+    else if (characterTypes >= 3 && length >= 10) score += 1;
+    
+    // Pénalités
+    if (hasSequential) score -= 1;
+    if (hasRepeated) score -= 1;
+    
+    // S'assurer que le score reste entre 0 et 10
+    score = Math.max(0, Math.min(10, score));
+    
+    // Déterminer la force
+    let strength = '';
+    let message = '';
+    let emoji = '';
+    
+    if (score <= 3) {
+        strength = 'faible';
+        message = 'Mot de passe faible';
+        emoji = '❌';
+    } else if (score <= 6) {
+        strength = 'moyen';
+        message = 'Mot de passe moyen';
+        emoji = '⚠️';
+    } else {
+        strength = 'fort';
+        message = 'Mot de passe fort';
+        emoji = '✅';
+    }
+    
+    // Générer les conseils personnalisés
+    const advice = generateAdvice(password, {
+        length, hasUpperCase, hasLowerCase, hasNumbers, hasSpecial,
+        characterTypes, hasSequential, hasRepeated, strength
+    });
+    
+    return {
+        password,
+        length,
+        hasUpperCase,
+        hasLowerCase,
+        hasNumbers,
+        hasSpecial,
+        characterTypes,
+        hasSequential,
+        hasRepeated,
+        score,
+        strength,
+        message,
+        emoji,
+        advice
+    };
+}
+
+// ============================================
+// VÉRIFIER LES SÉQUENCES (123, abc)
+// ============================================
+
+function checkSequential(password) {
+    const sequences = [
+        '123', '234', '345', '456', '567', '678', '789',
+        'abc', 'bcd', 'cde', 'def', 'efg', 'fgh', 'ghi',
+        'hj', 'ijk', 'jkl', 'klm', 'lmn', 'mno', 'nop',
+        'opq', 'pqr', 'qrs', 'rst', 'stu', 'tuv', 'uvw',
+        'vwx', 'wxy', 'xyz'
+    ];
+    
+    const lowerPassword = password.toLowerCase();
+    return sequences.some(seq => lowerPassword.includes(seq));
+}
+
+// ============================================
+// VÉRIFIER LES RÉPÉTITIONS (aaaa, 1111)
+// ============================================
+
+function checkRepeated(password) {
+    // Vérifier 4 mêmes caractères consécutifs
+    for (let i = 0; i < password.length - 3; i++) {
+        if (password[i] === password[i+1] && 
+            password[i] === password[i+2] && 
+            password[i] === password[i+3]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// ============================================
+// GÉNÉRER DES CONSEILS PERSONNALISÉS
+// ============================================
+
+function generateAdvice(password, criteria) {
+    const advice = [];
+    
+    if (criteria.strength === 'fort') {
+        advice.push("🎉 Excellent travail ! Votre mot de passe est très sécurisé.");
+        advice.push("🔐 Il protège efficacement vos données personnelles.");
+        advice.push("💡 Continuez à utiliser ce type de mot de passe pour tous vos comptes importants.");
+        return advice;
+    }
+    
+    // Conseils basés sur les critères manquants
+    if (password.length < 8) {
+        advice.push("📏 Allongez votre mot de passe (minimum 8 caractères, idéalement 12+)");
+    } else if (password.length < 12) {
+        advice.push("📏 Bonne longueur, mais vous pouvez aller jusqu'à 12+ caractères");
+    }
+    
+    if (!criteria.hasUpperCase) {
+        advice.push("⬆️ Ajoutez des lettres MAJUSCULES (A, B, C...)");
+    }
+    
+    if (!criteria.hasLowerCase) {
+        advice.push("⬇️ Ajoutez des lettres minuscules (a, b, c...)");
+    }
+    
+    if (!criteria.hasNumbers) {
+        advice.push("🔢 Incorporez des chiffres (0-9)");
+    }
+    
+    if (!criteria.hasSpecial) {
+        advice.push("✨ Utilisez des caractères spéciaux (! @ # $ % ^ & *)");
+    }
+    
+    if (criteria.hasSequential) {
+        advice.push("⚠️ Évitez les séquences faciles (123, abc)");
+    }
+    
+    if (criteria.hasRepeated) {
+        advice.push("⚠️ Évitez les répétitions (aaaa, 1111)");
+    }
+    
+    // Vérifier si c'est un mot de passe trop commun
+    const commonPasswords = ['password', '123456', 'azerty', 'qwerty', 'admin', 'motdepasse'];
+    if (commonPasswords.includes(password.toLowerCase())) {
+        advice.push("🚫 Ce mot de passe est trop commun et facile à deviner !");
+    }
+    
+    // Vérifier si c'est une date
+    if (password.match(/^[0-9]{4,8}$/)) {
+        advice.push("📅 Évitez d'utiliser uniquement des chiffres (comme une date)");
+    }
+    
+    // Si seulement 2 types de caractères
+    if (criteria.characterTypes === 2) {
+        advice.push("🔄 Mélangez plus de types de caractères différents");
+    }
+    
+    return advice;
+}
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Bienvenue sur mon premier site web !');
+            
+            // 2. Ajouter un effet de scroll fluide pour les liens
+            const links = document.querySelectorAll('nav a, .btn');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Empêcher le comportement par défaut seulement si c'est un lien interne
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+        function displayResult(analysis, resultDiv) {
+
+    let color = "";
+    
+    if (analysis.strength === "faible") color = "red";
+    else if (analysis.strength === "moyen") color = "orange";
+    else color = "green";
+
+    resultDiv.innerHTML = `
+        <div style="padding:20px;border-radius:10px;background:#f5f5f5">
+        
+        <h3 style="color:${color}">
+        ${analysis.emoji} ${analysis.message}
+        </h3>
+        
+        <p><strong>Score :</strong> ${analysis.score}/10</p>
+
+        <p><strong>Longueur :</strong> ${analysis.length}</p>
+
+        <h4>Conseils :</h4>
+        <ul>
+            ${analysis.advice.map(a => `<li>${a}</li>`).join("")}
+        </ul>
+
+        </div>
+    `;
+}
+    </script>
+
+</body>
