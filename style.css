@@ -132,7 +132,7 @@ nav a:hover {
     min-height: 90vh;
     margin-top: 20px;
     padding: 60px 40px;
-    background: linear-gradient(135deg, rgba(67, 97, 238, 0.05), rgba(76, 201, 240, 0.05)), url("images/imgbackground.jpg");
+    background: linear-gradient(135deg, rgba(67, 97, 238, 0.05), rgba(76, 201, 240, 0.05)), url("imgs/imgbackground.jpg");
     background-size: cover;
     background-position: center;
     border-radius: 40px;
@@ -518,3 +518,4 @@ nav a:hover {
     }
 
 }
+
