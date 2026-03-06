@@ -21,7 +21,7 @@ body {
     font-family: 'Arial', sans-serif;
     color: rgb(8, 8, 8);
     line-height: 1.6;
-    background-image: url("images/imgbackground.jpg");
+    background-image: url("imgs/imgbackground.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -516,4 +516,5 @@ nav a:hover {
         grid-template-columns: 1fr;
         gap: 30px;
     }
+
 }
